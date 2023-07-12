@@ -6,5 +6,4 @@ export async function middleware(req: NextRequest) {
   if (pathname === '/') {
     return NextResponse.redirect(origin + '/tracuu');
   } 
-  
 }

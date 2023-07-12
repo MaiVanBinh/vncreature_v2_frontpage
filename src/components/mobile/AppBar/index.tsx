@@ -9,20 +9,20 @@ import styled from "styled-components";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 import { style } from "@/styles/globals";
-import SearchIcon from '@mui/icons-material/Search';
+import SearchIcon from "@mui/icons-material/Search";
 
-const Container = styled('div')`
-  background: ${({theme }) => theme?.colors.primary};
-  max-width: '100% !important';
-`
+const Container = styled("div")`
+  background: ${({ theme }) => theme?.colors.primary};
+  max-width: "100% !important";
+`;
 
-const MenuListItem = styled('div')`
-  background: ${({theme }) => theme?.colors.primary2};
-  color: ${({theme }) => theme?.colors.white};
-`
+const MenuListItem = styled("div")`
+  background: ${({ theme }) => theme?.colors.primary2};
+  color: ${({ theme }) => theme?.colors.white};
+`;
 
 const pages = ["Products", "Pricing", "Blog", "Products", "Pricing", "Blog"];
-function ResponsiveAppBar() {
+function ResponsiveAppBar({ isSearchPage }: { isSearchPage?: boolean }) {
   const [showMenu, setShowMenu] = React.useState(false);
 
   return (
@@ -57,14 +57,16 @@ function ResponsiveAppBar() {
                 letterSpacing: ".3rem",
                 color: "inherit",
                 textDecoration: "none",
-                textTransform: 'uppercase'
+                textTransform: "uppercase",
               }}
             >
               vncreatures
             </Typography>
-            <IconButton size="large" aria-label="search" color="inherit">
-            <SearchIcon />
-          </IconButton>
+            {!isSearchPage && (
+              <IconButton size="large" aria-label="search" color="inherit">
+                <SearchIcon />
+              </IconButton>
+            )}
           </Toolbar>
         </Container>
       </AppBar>
