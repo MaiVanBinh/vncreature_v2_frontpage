@@ -3,6 +3,7 @@ import {createWrapper, Context} from 'next-redux-wrapper';
 import createSagaMiddleware, {Task} from 'redux-saga';
 import reducer from './reducer';
 import rootSaga from './saga';
+import { TypedUseSelectorHook, useSelector } from 'react-redux';
 
 export interface SagaStore extends Store {
   sagaTask?: Task;
@@ -21,5 +22,9 @@ export const makeStore = (context: Context) => {
   // 4: now return the store:
   return store;
 };
+
+export type RootStore = ReturnType<typeof makeStore>;
+export type RootState = ReturnType<RootStore['getState']>;
+export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
 
 export const wrapper = createWrapper(makeStore);

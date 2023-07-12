@@ -1,3 +1,4 @@
+import { TPost } from "@/api/type";
 import { BodyText1, Title3 } from "@/components/base/baseComponent";
 import Image from "next/image";
 import { styled } from "styled-components";
@@ -48,24 +49,23 @@ const Title3Custom = styled(Title3)`
   color: ${props => props.theme.colors.dark}
 `
 
-const ArticleItem = ({ title, image }: { title: string; image: string }) => {
+const ArticleItem = ({ post }: { post: TPost; }) => {
+  const image = post.assets?.[0].url?.replace('https', 'http');
+
   return (
     <ContentImageContainer>
       <ContentContainer>
-        <Title3Custom>NGẨN NGƠ HƯƠNG SẮC MUỒNG HOA ĐÀO</Title3Custom>
+        <Title3Custom>{post.title}</Title3Custom>
         <BodyText1Custom>
-            Khi con chim Chơ rao - Pycnonotus jocosus thức dậy sớm hơn thường ngày
-            để cất lên bài ca vang vọng, gọi tình. Cũng là lúc những cánh rừng ở
-            miền Đông nam bộ chuẩn bị khoác lên mình một chiếc áo mới. Trên cây
-            Muồng hoa đào Cassia javanica khẳng khiu, trơ trọi, những chiếc mầm
-            sống khẽ vươn mình cùng đất trời trong thời khắc giao mùa. Từng đàn
-            chim Phí Gracul
+            {post.description}
         </BodyText1Custom>
+        <>Xem Them</>
       </ContentContainer>
 
       <ImageArticleItemContainer>
-        <Image src={image} alt={title} width="100" height="100" />
+        <Image src={image} alt={post.title} width="100" height="100" />
       </ImageArticleItemContainer>
+      
     </ContentImageContainer>
   );
 };

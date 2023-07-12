@@ -3,25 +3,31 @@ import { ContainerBase } from "@/components/base/baseComponent";
 import Creature from "../Creature";
 import { Divider } from "@mui/material";
 import TitleList from "@/components/base/Title";
+import { TCreature } from "@/api/type";
 
 const Container = styled(ContainerBase)``;
 const ListContainer = styled(ContainerBase)`
   margin-top: 10px;
-  padding: 10px 20px; 
-  background: ${props => props.theme?.colors?.white};
+  padding: 10px 20px;
+  background: ${(props) => props.theme?.colors?.white};
   border-radius: 10px;
 `;
 
-const RedBookList = () => {
+const RedBookList = ({ redbookData }: { redbookData: TCreature[] }) => {
   return (
     <Container>
-      <TitleList title="Dong vat sach do"/>
+      <TitleList title="Dong vat sach do" />
       <ListContainer>
-        <Creature title="aosidjnaois" image="http://www.vncreatures.net/forumpic/hdh01.jpg" />
-        <Divider sx={{borderStyle:'dashed', borderBottomWidth: "unset"}} />
-        <Creature title="aosidjnaois" image="http://www.vncreatures.net/forumpic/hdh01.jpg" />
-        <Divider sx={{borderStyle:'dashed', borderBottomWidth: "unset"}} />
-        <Creature title="aosidjnaois" image="http://www.vncreatures.net/forumpic/hdh01.jpg" />
+        {redbookData?.map((item) => (
+          <div key={item.id}>
+            <Creature
+              creature={item}
+            />
+            <Divider
+              sx={{ borderStyle: "dashed", borderBottomWidth: "unset" }}
+            />
+          </div>
+        ))}
       </ListContainer>
     </Container>
   );

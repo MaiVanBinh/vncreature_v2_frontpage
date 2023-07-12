@@ -2,6 +2,7 @@ import { BodyText1, Title3 } from "@/components/base/baseComponent";
 import Image from "next/image";
 import SavedSearchSharpIcon from '@mui/icons-material/SavedSearchSharp';
 import { styled } from "styled-components";
+import { TCreature } from "@/api/type";
 
 const CreatureContainer = styled("div")`
   display: flex;
@@ -41,21 +42,23 @@ const BodyText1Custom = styled("span")`
 `;
 
 
-const Creature = ({ title, image }: { title: string; image: string }) => {
+const Creature = ({ creature }: { creature: TCreature }) => {
+  const image = creature?.assets?.find(item => item.url === creature.avatar);
+
   return (
     <CreatureContainer>
       <ContentImageContainer>
         <ImageCreatureContainer>
-          <Image src={image} alt={title} width="100" height="100" />
+          <Image src={creature.avatar?.replace('https', 'http')} alt={creature.name_vn} width="100" height="100" />
         </ImageCreatureContainer>
         <ContentContainer>
-          <Title3>Rắn lá khô thường</Title3>
+          <Title3>{creature.name_vn}</Title3>
           <BodyText1>
             Ten latin:
-            <BodyText1Custom>Rắn lá khô thường</BodyText1Custom>
+            <BodyText1Custom>{creature.name_latin}</BodyText1Custom>
           </BodyText1>
           <BodyText1>
-            <b>Hình ảnh</b>: Phùng Mỹ Trung
+            <b>Hình ảnh</b>: {image?.author_name}
           </BodyText1>
         </ContentContainer>
       </ContentImageContainer>

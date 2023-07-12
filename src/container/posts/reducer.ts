@@ -1,20 +1,20 @@
-import { TCreatureRedbook } from "@/api/type";
-import { CREATURES } from "./constants";
+import { TPost } from "@/api/type";
+import { POSTS } from "./constants";
 type TState = {
-  redbookData: TCreatureRedbook
+  data?: TPost[]
 }
+
 const initialState: TState = {
-  redbookData: {},
+  data: [],
 }
 
 export default function app(state = initialState, action: any) {
   const { data } = action
-
   switch (action.type) {
-    case CREATURES.GET_LIST_CREATURE_REDBOOK_STATISTIC_SUCCESS: {
+    case POSTS.GET_LIST_SUCCESS: {
       return {
         ...state,
-        redbookData: data,
+        data: data,
       }
     }
     default:
