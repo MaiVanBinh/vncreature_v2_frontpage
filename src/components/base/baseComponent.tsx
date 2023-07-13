@@ -28,3 +28,11 @@ export const BodyText1 = styled('p')`
 export const ContainerBase = styled('div')`
   padding: 30px 0 0;
 `
+
+export const Caption = styled('p')<any>`
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 16px;
+  letter-spacing: 0.1px;
+  margin-bottom: 0;
+`

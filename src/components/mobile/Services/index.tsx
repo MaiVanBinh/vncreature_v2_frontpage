@@ -6,6 +6,7 @@ import Grid from "@mui/material/Grid";
 import MultipleStopIcon from '@mui/icons-material/MultipleStop';
 import ParkIcon from '@mui/icons-material/Park';
 import CycloneIcon from '@mui/icons-material/Cyclone';
+import { useRouter } from "next/router";
 
 const ServicesContainer = styled("div")`
   display: flex;
@@ -57,10 +58,11 @@ const IconItem = styled("div")`
 type Props = {
   children: string | JSX.Element | JSX.Element[];
   title: string;
+  click?: any
 };
 
 const ServiceItem = (props: Props) => (
-  <ServicesItem>
+  <ServicesItem onClick={() => props.click()}>
     <IconItem>{props.children}</IconItem>
 
     <Title3
@@ -75,6 +77,8 @@ const ServiceItem = (props: Props) => (
 );
 
 const HomePageServices = () => {
+  const router = useRouter()
+
   return (
     <ServicesContainer>
       <Grid container>
@@ -86,7 +90,7 @@ const HomePageServices = () => {
             justifyContent: "center",
           }}
         >
-          <ServiceItem title="Sinh vat">
+          <ServiceItem title="Sinh vat" click={() => router.push('/kqtracuu')}>
             <PetsIcon />
           </ServiceItem>
         </Grid>
