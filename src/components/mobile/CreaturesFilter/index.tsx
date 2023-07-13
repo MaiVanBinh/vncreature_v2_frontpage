@@ -5,6 +5,8 @@ import styled from "styled-components";
 import AppHeader from "../AppHeader";
 import CloseIcon from "@mui/icons-material/Close";
 import { BodyText1 } from "@/components/base/baseComponent";
+import { useAppSelector } from "@/container/store";
+import { useEffect } from "react";
 
 const CreaturesFilterContainer = styled("div")`
   padding: 1em 4vh;
@@ -22,6 +24,7 @@ type TProps = {
 };
 
 const CreaturesFilter = (props: TProps) => {
+
   const { openFilter, closeFilter } = props;
   return (
     <>

@@ -13,6 +13,7 @@ import { useRouter } from "next/router";
 import CreaturesFilter from "@/components/mobile/CreaturesFilter";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import { Button } from "@mui/material";
+import { getClassify } from "@/container/classify/actions";
 
 const SearchResultContainer = styled("div")`
   padding: 1em 4vw;
@@ -37,8 +38,14 @@ const SearchResult = () => {
   const redbookData = useAppSelector(
     (state) => state.creaturesReducer.redbookData
   );
+
+  const tab = useAppSelector(
+    (state) => state.classifyReducer.tab
+  );
+
   useLayoutEffect(() => {
     dispatch(getCreaturesRedbook({}));
+    dispatch(getClassify(tab));
   }, []);
   const closeFilterHandler = () => {
     setOpenFilter(false);
