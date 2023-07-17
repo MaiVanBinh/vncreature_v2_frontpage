@@ -7,6 +7,8 @@ import CloseIcon from "@mui/icons-material/Close";
 import { BodyText1 } from "@/components/base/baseComponent";
 import { useAppSelector } from "@/container/store";
 import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { toggleFilter } from "@/container/classify/actions";
 
 const CreaturesFilterContainer = styled("div")`
   padding: 1em 4vh;
@@ -19,23 +21,24 @@ const CustomDraw = styled(Drawer)`
 `;
 
 type TProps = {
-  openFilter: boolean;
   closeFilter: any;
 };
 
 const CreaturesFilter = (props: TProps) => {
+  const dispatch = useDispatch();
+  const { closeFilter } = props;
+  const isShowFilter = useAppSelector(state => state.classifyReducer.isShowFilter);
 
-  const { openFilter, closeFilter } = props;
   return (
     <>
-      <CustomDraw anchor="top" open={openFilter} sx={{}} onClose={closeFilter}>
+      <CustomDraw anchor="top" open={isShowFilter} sx={{}} onClose={() => dispatch(toggleFilter())}>
         <AppHeader title="Thay doi tim kiem">
           <Button variant="outlined" onClick={closeFilter}>
             <BodyText1 className="under-line">Dong</BodyText1>
           </Button>
         </AppHeader>
         <CreaturesFilterContainer>
-          <CreaturesTab showFilter={openFilter} />
+          <CreaturesTab showFilter={isShowFilter} />
         </CreaturesFilterContainer>
       </CustomDraw>
     </>

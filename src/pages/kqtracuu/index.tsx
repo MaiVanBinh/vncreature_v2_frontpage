@@ -1,19 +1,19 @@
-import { useState } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useEffect } from "react";
 import styled from "styled-components";
 import AppHeader from "@/components/mobile/AppHeader";
 import SpeciesTab from "@/components/mobile/SpeciesTab";
 import { BodyText1 } from "@/components/base/baseComponent";
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "@/container/store";
-import { useLayoutEffect } from "react";
-import { getCreaturesRedbook } from "@/container/creatures/actions";
-import BasicPagination from "@/components/mobile/BasicPagination";
+import { changePage, getCreature } from "@/container/creatures/actions";
+import Pagination from '@mui/material/Pagination';
 import ListCreatures from "@/components/mobile/ListCreatures";
 import { useRouter } from "next/router";
 import CreaturesFilter from "@/components/mobile/CreaturesFilter";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import { Button } from "@mui/material";
-import { getClassify } from "@/container/classify/actions";
+import { getClassify, syncToEditFilter, toggleFilter } from "@/container/classify/actions";
 
 const SearchResultContainer = styled("div")`
   padding: 1em 4vw;
@@ -33,37 +33,46 @@ const IntroductionInfo = styled("div")`
 const SearchResult = () => {
   const dispatch = useDispatch();
   const router = useRouter();
-  const [openFilter, setOpenFilter] = useState(false);
 
-  const redbookData = useAppSelector(
-    (state) => state.creaturesReducer.redbookData
+  const { listCreatures, totalPage, currentPage } = useAppSelector(
+    (state) => state.creaturesReducer
   );
 
   const tab = useAppSelector(
-    (state) => state.classifyReducer.tab
+    (state) => state.classifyReducer.filterMain.tab
   );
 
-  useLayoutEffect(() => {
-    dispatch(getCreaturesRedbook({}));
+  useEffect(() => {
+    dispatch(getCreature({ specie: tab, page: currentPage }));
+  }, [currentPage]);
+
+  useEffect(() => {
     dispatch(getClassify(tab));
-  }, []);
-  const closeFilterHandler = () => {
-    setOpenFilter(false);
-  };
+    dispatch(getCreature({ specie: tab, page: 1 }));
+  }, [tab])
+
+  const toggleFilterHandler = () => {
+    dispatch(toggleFilter())
+    dispatch(syncToEditFilter())
+  }
+
+  const changePageHandler = (event: React.ChangeEvent<unknown>, value: number) => {
+    dispatch(changePage(value))
+    // changePage
+  }
   return (
     <>
       <AppHeader isIcon backClick={() => router.push("/tracuu")}>
         <Button
           variant="outlined"
           startIcon={<FilterListIcon />}
-          onClick={() => setOpenFilter(true)}
+          onClick={() => toggleFilterHandler()}
         >
           Bo Loc
         </Button>
       </AppHeader>
       <CreaturesFilter
-        openFilter={openFilter}
-        closeFilter={() => closeFilterHandler()}
+        closeFilter={() => toggleFilterHandler()}
       />
       <SpeciesTab openFilter={false} />
       <IntroductionInfo>
@@ -71,10 +80,10 @@ const SearchResult = () => {
         <BodyText1>Cập nhật 08/03/2022</BodyText1>
       </IntroductionInfo>
       <SearchResultContainer>
-        {redbookData.animals && (
-          <ListCreatures creatures={redbookData.animals} />
+        {listCreatures && (
+          <ListCreatures creatures={listCreatures} />
         )}
-        <BasicPagination />
+        <Pagination count={totalPage} page={currentPage} onChange={changePageHandler} />
       </SearchResultContainer>
     </>
   );

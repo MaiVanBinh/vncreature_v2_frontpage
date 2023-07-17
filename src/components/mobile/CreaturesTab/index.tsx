@@ -24,7 +24,8 @@ import { TGroup } from "@/api/type";
 import { FormControlLabel, FormLabel, Radio, RadioGroup } from "@mui/material";
 import { FILTER_BY } from "@/utils/constants";
 import { useDispatch } from "react-redux";
-import { changeTab } from "@/container/classify/actions";
+import { changeClassifyType, changeKeywordFilter, changeTab, handlerCheckRedbook, removeFilter } from "@/container/classify/actions";
+import { changePage, getCreature } from "@/container/creatures/actions";
 
 interface Props {
   isBorder: boolean;
@@ -125,23 +126,28 @@ type TProps = {
 const CreaturesTab = (props: TProps) => {
   const dispatch = useDispatch();
   const { showFilter } = props;
-  const [listFilter, setListFilter] = React.useState([])
+  const [listFilter, setListFilter] = React.useState<any>([])
   const [filterBy, setFilterBy] = React.useState(FILTER_BY.groups)
   const [filterDataId, setListFilterDataId] = React.useState<any>([])
 
-  const filterData = useAppSelector(
-    (state) => state.classifyReducer.filterDataByAnimal
-  );
-  const tab = useAppSelector(
-    (state) => state.classifyReducer.tab
+  const classifyReducerTemp = useAppSelector(
+    (state) => state.classifyReducer.tempFilter
   );
 
+  const classifyReducer = useAppSelector(
+    (state) => state.classifyReducer.filterMain
+  );
+
+  const  { tab, filterDataByAnimal: filterData } = showFilter ? classifyReducerTemp : classifyReducer;
+
+  const mainFilter = showFilter ? classifyReducerTemp.filter : classifyReducer.filter;
+
   React.useEffect(() => {
-    if(filterData) {
+    if(filterData && filterData?.groups) {
       setListFilter(filterData.groups)
       setFilterBy(FILTER_BY.groups);
     }
-  }, [])
+  }, [filterData])
 
   const handleChangeFilterBy = (event: any) => {
     switch(event.target.value) {
@@ -170,28 +176,40 @@ const CreaturesTab = (props: TProps) => {
   };
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-    console.log('changeTab')
-    dispatch(changeTab(newValue));
-  };
-
-  const handleChangeCheck = () => (event: any) => {
-    const {
-      target: { value },
-    } = event;
-    console.log(value)
-    setListFilterDataId(value);
+    dispatch(removeFilter())
+    dispatch(changePage(1));
+    dispatch(changeTab(newValue, showFilter));
   };
 
   const handleChangeSelect = (event: SelectChangeEvent<typeof filterDataId>) => {
     const {
       target: { value },
     } = event;
+    const listId = value?.map((item: { id: any; }) => item.id);
+    dispatch(changeClassifyType(listId, filterBy.value, showFilter))
     setListFilterDataId(
       typeof value === 'string' ? value.split(',') : value,
     );
   };
 
-  console.log('tabtabtab', tab)
+
+  const changeKeywordHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const newKeyword = event.target.value || '';
+    dispatch(changeKeywordFilter(newKeyword, showFilter))
+  }
+
+  const handlerSearchClick = () => {
+    dispatch(getCreature(mainFilter))
+  }
+
+  const handleChangeCheckBox = (event: React.ChangeEvent<HTMLInputElement>) => {
+    dispatch(handlerCheckRedbook(event.target.checked, showFilter))
+  };
+
+  const removeFilterHandler = () => {
+    dispatch(removeFilter(showFilter))
+  }
+
   return (
     <Container isBorder={true}>
       <TabsCustom
@@ -211,6 +229,8 @@ const CreaturesTab = (props: TProps) => {
             id="standard-basic"
             label="Nhap tu khoa"
             variant="outlined"
+            value={mainFilter?.keyword}
+            onChange={changeKeywordHandler}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
@@ -237,7 +257,7 @@ const CreaturesTab = (props: TProps) => {
               onChange={handleChangeFilterBy}
               value={filterBy.value}
             >
-              <FormControlLabel value={FILTER_BY.groups.value} control={<Radio />} label="Lop ()" />
+              <FormControlLabel value={FILTER_BY.groups.value} control={<Radio />} label="Lop" />
               <FormControlLabel value={FILTER_BY.sets.value} control={<Radio />} label="Bo" />
               <FormControlLabel value={FILTER_BY.family.value} control={<Radio />} label="Ho" />
             </RadioGroup>
@@ -272,18 +292,18 @@ const CreaturesTab = (props: TProps) => {
           
           <CheckBoxContainer>
             <Checkbox
-              checked={true}
-              onChange={handleChangeCheck}
+              checked={filterData.isRedbook}
+              onChange={handleChangeCheckBox}
               inputProps={{ "aria-label": "controlled" }}
             />
             <BodyText1>Loai thuoc sach do</BodyText1>
           </CheckBoxContainer>
           <ButtonGroupContainer>
-            <ButtonContainer variant="contained" className="btn-search">
-              Tim Kiem
-            </ButtonContainer>
-            <ButtonContainer variant="outlined" className="btn-search">
+            <ButtonContainer variant="outlined" className="btn-search" onClick={removeFilterHandler}>
               Xoa Loc
+            </ButtonContainer>
+            <ButtonContainer variant="contained" className="btn-search" onClick={handlerSearchClick}>
+              Tim Kiem
             </ButtonContainer>
           </ButtonGroupContainer>
         </FilterContentContainer>
