@@ -40,7 +40,10 @@ export type TPost = {
   title: string;
   description: string;
   assets: TAsset[];
-  category?: TPostCategory;
+  category: number;
+  created_at: string;
+  updated_at: string;
+  categoryBelong?: TPostCategory;
 };
 
 export type TClassify = {
@@ -58,7 +61,7 @@ export interface TSet extends TClassify {
 export interface TGroup extends TClassify {
   setsBelong?: TSet[];
 }
-export interface TSpecies {
+export type TSpecies = {
   id: number;
   name_vn: string;
   name_en: string;

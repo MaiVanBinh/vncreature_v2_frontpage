@@ -37,6 +37,11 @@ const ServicesItem = styled("div")`
   align-items: center;
   padding: 10px;
   cursor: pointer;
+  text-align: center;
+
+  p {
+    margin-top: 4px;
+  }
 `;
 
 const IconItem = styled("div")`
@@ -65,12 +70,7 @@ const ServiceItem = (props: Props) => (
   <ServicesItem onClick={() => props.click()}>
     <IconItem>{props.children}</IconItem>
 
-    <Title3
-      sx={{
-        marginTop: "4px",
-        textAlign: "center",
-      }}
-    >
+    <Title3>
       {props.title}
     </Title3>
   </ServicesItem>
@@ -103,7 +103,7 @@ const HomePageServices = () => {
             justifyContent: "center",
           }}
         >
-          <ServiceItem title="Bai viet">
+          <ServiceItem title="Bai viet" click={() => router.push('/bai-viet')}>
             <ArticleSharpIcon />
           </ServiceItem>
         </Grid>

@@ -59,7 +59,7 @@ const ArticleItem = ({ post }: { post: TPost; }) => {
   return (
     <ContentImageContainer>
       <ContentContainer>
-        <ChipCustom label={post?.category?.name_vn} variant="outlined" />
+        <ChipCustom label={post?.categoryBelong?.name_vn} variant="outlined" />
         <Title3Custom>{post.title}</Title3Custom>
         <BodyText1Custom>
             {post.description}

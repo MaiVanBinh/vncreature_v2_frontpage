@@ -1,7 +1,6 @@
 import request from "@/utils/request";
 import { URL } from "./../utils/constants";
 import { TClassify, TCreatureRedbook } from "./type";
-import QueryString from "qs";
 
 const V_API = URL.V_API;
 const listEndPoint = {

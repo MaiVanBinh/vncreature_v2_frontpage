@@ -6,9 +6,18 @@ const listEndPoint = {
   posts: `${V_API}/posts`,
 }
 
-export const getPosts = async (payload: any) => {
+export type TGetPostParams = {
+  category?: number;
+  page?: number;
+}
+
+export const getPostsApi = async (payload?: TGetPostParams) => {
   try {
-    const data = await request({url: listEndPoint.posts})
+    const options = {
+      params: payload
+    }
+    console.log('optionsoptions', options)
+    const data = await request({url: listEndPoint.posts, options })
     return data;
   } catch (err) {
     console.log("getPosts id err", err);

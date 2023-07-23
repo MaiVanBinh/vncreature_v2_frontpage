@@ -7,7 +7,6 @@ import { BodyText1, Title3 } from "@/components/base/baseComponent";
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "@/container/store";
 import { changePage, getCreature, setLoading } from "@/container/creatures/actions";
-import Pagination from "@mui/material/Pagination";
 import ListCreatures from "@/components/mobile/ListCreatures";
 import { useRouter } from "next/router";
 import CreaturesFilter from "@/components/mobile/CreaturesFilter";
@@ -24,6 +23,9 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import CheckIcon from "@mui/icons-material/Check";
 import { FILTER_BY } from "@/utils/constants";
+import { isBrowser } from "@/utils/isBrowser";
+import CustomPagination from "@/components/base/CustomPagination";
+import Footer from "@/components/mobile/Footer";
 
 const SearchResultContainer = styled("div")`
   padding: 1em 4vw;
@@ -77,8 +79,6 @@ const SearchResult = () => {
     dispatch(toggleFilter());
     dispatch(syncToEditFilter());
   };
-
-  const isBrowser = () => typeof window !== 'undefined'; //The approach recommended by Next.js
 
   const changePageHandler = (
     event: React.ChangeEvent<unknown>,
@@ -173,12 +173,14 @@ const SearchResult = () => {
         )}
 
         {listCreatures && <ListCreatures creatures={listCreatures} loading={loading} />}
-        <Pagination
-          count={totalPage}
-          page={currentPage}
-          onChange={changePageHandler}
+        <CustomPagination
+          totalPage={totalPage}
+          currentPage={currentPage}
+          changePageHandler={changePageHandler}
         />
       </SearchResultContainer>
+      <Footer />
+
     </>
   );
 };
