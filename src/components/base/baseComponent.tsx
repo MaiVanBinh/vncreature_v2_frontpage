@@ -1,4 +1,4 @@
-import { styled } from "@mui/material";
+import { styled } from "styled-components";
 
 export const Title1 = styled('h1')`
   font-size: 34px;
@@ -35,4 +35,18 @@ export const Caption = styled('p')<any>`
   line-height: 16px;
   letter-spacing: 0.1px;
   margin-bottom: 0;
+`
+
+export const BaseComponent = styled('div')`
+  margin-top: 10px;
+  padding: 10px;
+  background: ${(props) => props.theme?.colors?.white};
+`
+
+export const LightText = styled('p')`
+  color: ${(props) => props.theme?.colors?.darkLight};
+  font-size: 17px;
+  font-weight: 400;
+  line-height: 20px;
+  font-style: italic;
 `

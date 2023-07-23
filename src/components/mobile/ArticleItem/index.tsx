@@ -2,6 +2,7 @@ import { TPost } from "@/api/type";
 import { BodyText1, Title3 } from "@/components/base/baseComponent";
 import Image from "next/image";
 import { styled } from "styled-components";
+import Chip from '@mui/material/Chip';
 
 const ContentImageContainer = styled("div")`
   display: flex;
@@ -44,6 +45,9 @@ const BodyText1Custom = styled(BodyText1)`
       -webkit-box-orient: vertical;
     }
 `
+const ChipCustom = styled(Chip)`
+  border-radius: unset;
+`
 
 const Title3Custom = styled(Title3)`
   color: ${props => props.theme.colors.dark}
@@ -55,6 +59,7 @@ const ArticleItem = ({ post }: { post: TPost; }) => {
   return (
     <ContentImageContainer>
       <ContentContainer>
+        <ChipCustom label={post?.category?.name_vn} variant="outlined" />
         <Title3Custom>{post.title}</Title3Custom>
         <BodyText1Custom>
             {post.description}

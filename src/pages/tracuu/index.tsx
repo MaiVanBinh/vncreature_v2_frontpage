@@ -31,9 +31,9 @@ export default function Home() {
       <HomeBanner />
       <HomePageContainer>
         <HomePageServices />
-        {redbookData.animals && <RedBookList redbookData={redbookData.animals} />}
-        {redbookData.plants && <RedBookList redbookData={redbookData.plants} />}
-        {redbookData.insect && <RedBookList redbookData={redbookData.insect} />}
+        {redbookData.animals && <RedBookList redbookData={redbookData.animals?.data} />}
+        {redbookData.plants && <RedBookList redbookData={redbookData.plants?.data} />}
+        {redbookData.insect && <RedBookList redbookData={redbookData.insect?.data} />}
         <Articles posts={posts} />
       </HomePageContainer>
       <Footer />

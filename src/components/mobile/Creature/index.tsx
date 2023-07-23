@@ -3,6 +3,10 @@ import Image from "next/image";
 import SavedSearchSharpIcon from '@mui/icons-material/SavedSearchSharp';
 import { styled } from "styled-components";
 import { TCreature } from "@/api/type";
+import CustomImage from "@/components/base/CustomImage";
+import { useRouter } from "next/router";
+import { useDispatch } from "react-redux";
+import { setCurrentCreature } from "@/container/creatures/actions";
 
 const CreatureContainer = styled("div")`
   display: flex;
@@ -41,15 +45,21 @@ const BodyText1Custom = styled("span")`
   color: ${props => props.theme.colors.artyClickBlue}
 `;
 
-
 const Creature = ({ creature }: { creature: TCreature }) => {
   const image = creature?.assets?.find(item => item.url === creature.avatar);
+  const router = useRouter()
+  const dispatch = useDispatch();
+
+  const onClickHandler = () => {
+    router.push(`/sinh-vat/${creature.id}`)
+    dispatch(setCurrentCreature(creature))
+  }
 
   return (
-    <CreatureContainer>
+    <CreatureContainer onClick={onClickHandler}>
       <ContentImageContainer>
         <ImageCreatureContainer>
-          <Image src={creature.avatar?.replace('https', 'http')} alt={creature.name_vn} width="100" height="100" />
+          <CustomImage src={creature.avatar?.replace('https', 'http')} alt={creature.name_vn} width="100" height="100" />
         </ImageCreatureContainer>
         <ContentContainer>
           <Title3>{creature.name_vn}</Title3>

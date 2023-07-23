@@ -1,13 +1,18 @@
 import { TCreature, TCreatureRedbook } from "@/api/type";
 import { CREATURES } from "./constants";
-type TState = {
+import { HYDRATE } from "next-redux-wrapper";
+import { difference } from "lodash";
+type TCreatureState = {
   redbookData: TCreatureRedbook,
   listCreatures: TCreature[],
   total: number,
   totalPage: number,
   currentPage: number,
+  loading: boolean;
+  currentCreature?: TCreature;
 }
-const initialState: TState = {
+const initialState: TCreatureState = {
+  loading: true,
   redbookData: {},
   listCreatures: [],
   total: 0,
@@ -16,8 +21,10 @@ const initialState: TState = {
 }
 
 export default function app(state = initialState, action: any) {
-
   switch (action.type) {
+    case HYDRATE:
+
+      return {...state, ...action.payload}
     case CREATURES.GET_LIST_CREATURE_REDBOOK_STATISTIC_SUCCESS: {
       const { data } = action
 
@@ -33,15 +40,36 @@ export default function app(state = initialState, action: any) {
         ...state,
         listCreatures: listCreature.data,
         total: listCreature.total,
-        totalPage: listCreature.totalPage
+        totalPage: listCreature.totalPage,
+        loading: false
       }
     }
     case CREATURES.CHANGE_PAGE: {
       const { page } = action;
-      console.log('CHANGE_PAGE', page)
       return {
         ...state,
         currentPage: page
+      }
+    }
+    case CREATURES.SET_LOADING: {
+      const { loading } = action;
+      return {
+        ...state,
+        loading
+      }
+    }
+    case CREATURES.SET_CREATURE_DETAIL: {
+      const { creature } = action;
+      return {
+        ...state,
+        currentCreature: creature
+      }
+    }
+    case CREATURES.GET_BY_ID_SUCCESS: {
+      const { data } = action;
+      return {
+        ...state,
+        currentCreature: data
       }
     }
     default:

@@ -12,16 +12,15 @@ export default {
   },
 
   setToken(token) {
-    if (lodash.isEmpty(token)) {
+    if (!lodash.isEmpty(token)) {
       const { access_token, refresh_token, expires_in } = token;
       const expiredAt = (new Date().getTime() / 1000) + token.expires_in - 900; // 45 minutes
-
+      
       if (localStorage) {
         localStorage.setItem('accessToken', access_token);
         localStorage.setItem('refreshToken', refresh_token);
         localStorage.setItem('expiresAt', expiredAt);
         localStorage.setItem('expiresIn', expires_in);
-
         return true;
       }
     }

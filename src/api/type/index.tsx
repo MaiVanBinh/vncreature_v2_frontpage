@@ -11,7 +11,12 @@ export type TCreature = {
   order: number;
   redbook_level: string;
   species: number;
-  assets: TAsset[];
+  assets?: TAsset[];
+  speciesBelong?: TSpecies;
+  setBelong?: TClassify;
+  groupBelong?: TClassify;
+  familyBelong?: TClassify;
+
 };
 
 export type TCreatureRedbook = {
@@ -25,15 +30,20 @@ export type TAsset = {
   url: string;
   author_name: string;
 };
-
+export type TPostCategory = {
+  id: number;
+  name_vn: string;
+  name_en: string;
+};
 export type TPost = {
   id: number;
   title: string;
   description: string;
   assets: TAsset[];
+  category?: TPostCategory;
 };
 
-type TClassify = {
+export type TClassify = {
   id: number;
   name_vn: string;
   description?: string;

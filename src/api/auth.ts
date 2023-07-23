@@ -17,15 +17,16 @@ export interface IToken {
 
 export const getAccessToken = async () => {
   try {
-    const options = {
-      method: 'post',
-      body: {
+    const res = await axios({
+      url: listEndPoint.oauth,
+      method: 'POST',
+      data: {
         api_client_secret: process.env.api_client_secret,
         api_client_id: process.env.api_client_id
       }
-    }
-    const res = await request({url: listEndPoint.oauth, options}) as IToken;
-    return res;
+    });
+    const token = res.data as IToken;
+    return token;
   } catch (err) {
     console.log("getAccessToken err", err);
     return null

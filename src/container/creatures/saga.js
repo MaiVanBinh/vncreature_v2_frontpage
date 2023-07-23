@@ -1,4 +1,4 @@
-import { getCreatures, getCreaturesRedbookStatistic } from "@/api/creatures";
+import { getCreatures, getCreaturesById, getCreaturesRedbookStatistic } from "@/api/creatures";
 import { takeLatest, put, call, race } from "redux-saga/effects";
 import { CREATURES } from "./constants";
 
@@ -28,9 +28,26 @@ function* handlerGetCreaturesRedbookStatistic(action) {
   }
 }
 
+function* handlerGetCreatureById(action) {
+  try {
+    const { id } = action;
+    console.log(action, 'handlerGetCreatureById')
+
+    let creature = yield call(getCreaturesById, id);
+
+    yield put({
+      type: CREATURES.GET_BY_ID_SUCCESS,
+      data: creature
+    })
+  } catch {
+    console.log(action, 'handlerGetCreatureById err')
+  }
+}
+
 function* root() {
   yield takeLatest(CREATURES.GET_LIST, handlerGetCreatures);
   yield takeLatest(CREATURES.GET_LIST_CREATURE_REDBOOK_STATISTIC, handlerGetCreaturesRedbookStatistic);
+  yield takeLatest(CREATURES.GET_BY_ID, handlerGetCreatureById);
 }
 
 export default root;

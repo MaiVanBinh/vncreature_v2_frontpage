@@ -1,6 +1,7 @@
 import { TFamily, TGroup, TSet, TSpecies } from "@/api/type";
 import { CLASSIFY } from "./constants";
 import clone from "lodash/clone";
+import { TClassifyLabel } from "@/api/creatures";
 
 export type TFilterData = {
   species?: TSpecies[];
@@ -8,7 +9,7 @@ export type TFilterData = {
   sets?: TSet[];
   family?: TFamily[];
 };
-type TState = {
+type TClassifyState = {
   filterData?: TSpecies[];
   isShowFilter: boolean;
   filterDataByAnimal?: TFilterData;
@@ -19,7 +20,7 @@ type TState = {
       isRedbook: false;
       keyword: "";
       classify: {
-        name: "";
+        name: TClassifyLabel;
         value: [];
       };
     };
@@ -31,14 +32,14 @@ type TState = {
       isRedbook: false;
       keyword: "";
       classify: {
-        name: "";
+        name: TClassifyLabel;
         value: [];
       };
     };
   };
 };
 
-const initialState: TState = {
+const initialState: TClassifyState = {
   filterData: [],
   isShowFilter: false,
   filterMain: {
@@ -48,7 +49,7 @@ const initialState: TState = {
       isRedbook: false,
       keyword: "",
       classify: {
-        name: "",
+        name: "groups",
         value: [],
       },
     },
@@ -59,7 +60,7 @@ const initialState: TState = {
       isRedbook: false,
       keyword: "",
       classify: {
-        name: "",
+        name: "groups",
         value: [],
       },
     },
@@ -67,7 +68,7 @@ const initialState: TState = {
   },
 };
 
-export default function app(state = initialState, action: any) {
+export default function app(state = initialState, action: any): TClassifyState {
   switch (action.type) {
     case CLASSIFY.GET_LIST_SUCCESS: {
       const { data } = action;
@@ -183,8 +184,6 @@ export default function app(state = initialState, action: any) {
     }
     case CLASSIFY.FILTER_CHANGE_REDBOOK_CONDITION: {
       const { isCheck, isEdit } = action;
-      console.log('FILTER_CHANGE_REDBOOK_CONDITION',isCheck, isEdit);
-
       if (isEdit) {
         return {
           ...state,
@@ -220,8 +219,8 @@ export default function app(state = initialState, action: any) {
               isRedbook: false,
               keyword: "",
               classify: {
-                name: "",
-                valueL: [],
+                name: "groups",
+                value: [],
               },
             },
           },
@@ -235,8 +234,8 @@ export default function app(state = initialState, action: any) {
             isRedbook: false,
             keyword: "",
             classify: {
-              name: "",
-              valueL: [],
+              name: 'groups',
+              value: [],
             },
           },
         },

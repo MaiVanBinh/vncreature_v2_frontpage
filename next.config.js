@@ -1,4 +1,7 @@
 /** @type {import('next').NextConfig} */
+
+const isProd = process.env.APP_ENV === "production";
+
 const nextConfig = {
   // reactStrictMode: true,
   compiler: {
@@ -22,6 +25,11 @@ const nextConfig = {
     TURN_ON_LOCATION: +process.env.TURN_ON_LOCATION || 0,
     isShowRoundTrip: +process.env.IS_SHOW_ROUND_TRIP || false,
   },
+  env: {
+    API_HOST: isProd
+      ? "https://gom.vexere.com"
+      : (process.env.API_HOST || "http://localhost:3000")
+  }
 };
 
 module.exports = nextConfig;

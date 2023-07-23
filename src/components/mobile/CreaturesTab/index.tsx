@@ -24,8 +24,9 @@ import { TGroup } from "@/api/type";
 import { FormControlLabel, FormLabel, Radio, RadioGroup } from "@mui/material";
 import { FILTER_BY } from "@/utils/constants";
 import { useDispatch } from "react-redux";
-import { changeClassifyType, changeKeywordFilter, changeTab, handlerCheckRedbook, removeFilter } from "@/container/classify/actions";
-import { changePage, getCreature } from "@/container/creatures/actions";
+import { changeClassifyType, changeKeywordFilter, changeTab, handlerCheckRedbook, removeFilter, syncFromEditFilter, toggleFilter } from "@/container/classify/actions";
+import { changePage, getCreature, setLoading } from "@/container/creatures/actions";
+import { get } from "lodash";
 
 interface Props {
   isBorder: boolean;
@@ -126,7 +127,6 @@ type TProps = {
 const CreaturesTab = (props: TProps) => {
   const dispatch = useDispatch();
   const { showFilter } = props;
-  const [listFilter, setListFilter] = React.useState<any>([])
   const [filterBy, setFilterBy] = React.useState(FILTER_BY.groups)
   const [filterDataId, setListFilterDataId] = React.useState<any>([])
 
@@ -144,34 +144,36 @@ const CreaturesTab = (props: TProps) => {
 
   React.useEffect(() => {
     if(filterData && filterData?.groups) {
-      setListFilter(filterData.groups)
       setFilterBy(FILTER_BY.groups);
     }
   }, [filterData])
 
   const handleChangeFilterBy = (event: any) => {
-    switch(event.target.value) {
-      case FILTER_BY.groups.value: {
-        setListFilter(filterData.groups)
-        setFilterBy(FILTER_BY.groups);
-        break;
-      }
-      case FILTER_BY.sets.value: {
-        setListFilter(filterData.sets)
-        setFilterBy(FILTER_BY.sets);
-        break;
-      }
-      case FILTER_BY.family.value: {
-        setListFilter(filterData.family)
-        setFilterBy(FILTER_BY.family);
-        break;
-      }
-      default: {
-        setListFilter(filterData.groups)
-        setFilterBy(FILTER_BY.groups);
-        break;
+    if (filterData) {
+      switch(event.target.value) {
+        case FILTER_BY.groups.value: {
+          dispatch(changeClassifyType([], FILTER_BY.groups.value, showFilter))
+          setFilterBy(FILTER_BY.groups);
+          break;
+        }
+        case FILTER_BY.sets.value: {
+          dispatch(changeClassifyType([], FILTER_BY.sets.value, showFilter))
+          setFilterBy(FILTER_BY.sets);
+          break;
+        }
+        case FILTER_BY.family.value: {
+          dispatch(changeClassifyType([], FILTER_BY.family.value, showFilter))
+          setFilterBy(FILTER_BY.family);
+          break;
+        }
+        default: {
+          dispatch(changeClassifyType([], FILTER_BY.groups.value, showFilter))
+          setFilterBy(FILTER_BY.groups);
+          break;
+        }
       }
     }
+    
     setListFilterDataId([]);
   };
 
@@ -185,8 +187,7 @@ const CreaturesTab = (props: TProps) => {
     const {
       target: { value },
     } = event;
-    const listId = value?.map((item: { id: any; }) => item.id);
-    dispatch(changeClassifyType(listId, filterBy.value, showFilter))
+    dispatch(changeClassifyType(value, filterBy.value, showFilter))
     setListFilterDataId(
       typeof value === 'string' ? value.split(',') : value,
     );
@@ -199,7 +200,11 @@ const CreaturesTab = (props: TProps) => {
   }
 
   const handlerSearchClick = () => {
-    dispatch(getCreature(mainFilter))
+    dispatch(setLoading(true))
+    dispatch(getCreature({ ...mainFilter, specie: tab, page: 1 }))
+    dispatch(syncFromEditFilter())
+    dispatch(toggleFilter())
+    dispatch(changePage(1))
   }
 
   const handleChangeCheckBox = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -252,10 +257,10 @@ const CreaturesTab = (props: TProps) => {
             <RadioGroup
               row
               aria-labelledby="demo-radio-buttons-group-label"
-              defaultValue={FILTER_BY.groups.value}
+              defaultValue={mainFilter.classify.value}
               name="radio-buttons-group"
               onChange={handleChangeFilterBy}
-              value={filterBy.value}
+              value={mainFilter.classify.name}
             >
               <FormControlLabel value={FILTER_BY.groups.value} control={<Radio />} label="Lop" />
               <FormControlLabel value={FILTER_BY.sets.value} control={<Radio />} label="Bo" />
@@ -269,21 +274,21 @@ const CreaturesTab = (props: TProps) => {
             }}
           >
             <InputLabel id="demo-multiple-checkbox-label">
-              {filterBy.label}
+              {FILTER_BY[mainFilter.classify.name].label}
             </InputLabel>
             <Select
               labelId="demo-multiple-checkbox-label"
               id="demo-multiple-checkbox"
               multiple
-              value={filterDataId}
+              value={mainFilter.classify.value}
               onChange={handleChangeSelect}
               input={<OutlinedInput label="Tag" />}
               renderValue={(selected) => selected.map((item: { name_vn: any; }) => item.name_vn).join(", ")}
               MenuProps={MenuProps}
             >
-              {filterData[filterBy.value]?.map((item: any) => (
+              {get(filterData, filterBy.value)?.map((item: any) => (
                 <MenuItem key={item.id} value={item}>
-                  <Checkbox checked={filterDataId.findIndex((f: { id: any; }) => f.id === item.id) > -1} />
+                  <Checkbox checked={mainFilter.classify.value.findIndex((f: { id: any; }) => f.id === item.id) > -1} />
                   <ListItemText primary={item.name_vn} />
                 </MenuItem>
               ))}
@@ -292,7 +297,7 @@ const CreaturesTab = (props: TProps) => {
           
           <CheckBoxContainer>
             <Checkbox
-              checked={filterData.isRedbook}
+              checked={get(mainFilter, 'isRedbook')}
               onChange={handleChangeCheckBox}
               inputProps={{ "aria-label": "controlled" }}
             />
@@ -303,7 +308,7 @@ const CreaturesTab = (props: TProps) => {
               Xoa Loc
             </ButtonContainer>
             <ButtonContainer variant="contained" className="btn-search" onClick={handlerSearchClick}>
-              Tim Kiem
+              Xac nhan
             </ButtonContainer>
           </ButtonGroupContainer>
         </FilterContentContainer>

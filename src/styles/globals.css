@@ -6,6 +6,7 @@
 }
 p {
   margin: 0;
+  color: #141414;
 } 
 .color-primary {
   color: #404e3a;
@@ -25,4 +26,8 @@ p {
 
 .color-iconBg {
   color: #46b956;
+}
+
+.text-bold {
+  font-weight: bold;
 }

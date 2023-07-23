@@ -9,10 +9,10 @@ import AuthCookie from './AuthCookie';
 import { getAccessToken, refreshTokenFunc, refreshTokenServer } from '@/api/auth';
 
 const getAccessTokenFromSessionStorage = async () => {
-  return null;
   if (!AuthSessionStorage.isTokenValid()) {
+    
     const tokens = await getAccessToken();
-    AuthSessionStorage.setToken(tokens);
+    await AuthSessionStorage.setToken(tokens);
     return AuthSessionStorage.getToken().accessToken;
   }
 
