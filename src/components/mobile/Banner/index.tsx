@@ -4,31 +4,47 @@ import Image from "next/image";
 import Box from "@mui/material/Box";
 import useTrans from "@/hooks/useTrans";
 import { Title1 } from "@/components/base/baseComponent";
-import styled from 'styled-components'
+import styled from "styled-components";
+import ReactPlayer from "react-player";
 
-const HomeBannerContainer = styled('div')`
-background: ${props => props.theme?.colors.bg};
-`
+const HomeBannerContainer = styled("div")`
+  background: ${(props) => props.theme?.colors.bg};
+`;
 
 const HomeBanner = () => {
-  const trans = useTrans()
+  const { t } = useTrans();
 
   return (
     <HomeBannerContainer>
       <Box
         sx={{
           position: "relative",
-          height: "250px",
+          // height: "250px",
+          width: '100%'
         }}
       >
-        <Image
+        <ReactPlayer
+          style={{
+            width: "100vh",
+          }}
+          url="./videos/banner_video.mp4"
+          loop={true}
+          playing={true}
+          playsinline={true}
+          volume={0.5}
+          width={'100%'}
+          height={'auto'}
+          // muted={true}
+        />
+
+        {/* <Image
           src="https://butterfly-conservation.org/sites/default/files/styles/masthead/public/2023-05/wild-spaces_0.jpg?itok=HgxXNtZN"
           alt="HomeBannerImage"
           fill
           style={{
             objectFit: "cover",
           }}
-        />
+        /> */}
       </Box>
       <Box
         sx={{
@@ -36,9 +52,7 @@ const HomeBanner = () => {
         }}
       >
         <Title1>
-          {trans.solgan1}
-          <br />
-          {trans.home.solgan2}
+          {t.solgan1}
         </Title1>
       </Box>
     </HomeBannerContainer>

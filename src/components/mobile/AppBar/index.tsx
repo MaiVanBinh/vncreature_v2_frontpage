@@ -11,6 +11,12 @@ import AdbIcon from "@mui/icons-material/Adb";
 import { style } from "@/styles/globals";
 import SearchIcon from "@mui/icons-material/Search";
 
+import VnFlagIcon from "../../../../public/icon/vn-flag.svg";
+import EnFlagIcon from "../../../../public/icon/vn-flag.svg";
+import Image from "next/image";
+import useTrans from "@/hooks/useTrans";
+import { LOCALE_ENUM } from "@/utils/constants";
+
 const Container = styled("div")`
   background: ${({ theme }) => theme?.colors.primary};
   max-width: "100% !important";
@@ -23,14 +29,20 @@ const MenuListItem = styled("div")`
 
 const pages = ["Products", "Pricing", "Blog", "Products", "Pricing", "Blog"];
 function ResponsiveAppBar({ isSearchPage }: { isSearchPage?: boolean }) {
+  const { t, locale, setLocale } = useTrans();
   const [showMenu, setShowMenu] = React.useState(false);
 
   return (
     <div>
       <AppBar position="static">
         <Container>
-          <Toolbar disableGutters>
-            <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "flex" } }}>
+          <Toolbar
+            disableGutters
+            style={{
+              marginLeft: "5px",
+            }}
+          >
+            {/* <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "flex" } }}>
               <IconButton
                 size="large"
                 aria-label="account of current user"
@@ -41,7 +53,7 @@ function ResponsiveAppBar({ isSearchPage }: { isSearchPage?: boolean }) {
               >
                 <MenuIcon />
               </IconButton>
-            </Box>
+            </Box> */}
             <AdbIcon sx={{ display: { xs: "flex", md: "flex" }, mr: 1 }} />
             <Typography
               variant="h5"
@@ -62,11 +74,18 @@ function ResponsiveAppBar({ isSearchPage }: { isSearchPage?: boolean }) {
             >
               vncreatures
             </Typography>
-            {!isSearchPage && (
+            {/* {!isSearchPage && (
               <IconButton size="large" aria-label="search" color="inherit">
                 <SearchIcon />
               </IconButton>
-            )}
+            )} */}
+            <IconButton size="large" aria-label="search" color="inherit">
+              <Image
+                priority
+                src={locale === LOCALE_ENUM.VN ? VnFlagIcon : EnFlagIcon}
+                alt="Flag"
+              />
+            </IconButton>
           </Toolbar>
         </Container>
       </AppBar>

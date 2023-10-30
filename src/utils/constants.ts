@@ -22,3 +22,8 @@ export const FILTER_BY = {
     label: 'Ho'
   }
 }
+
+export const LOCALE_ENUM = {
+  VN: 'vi',
+  EN: 'en'
+}

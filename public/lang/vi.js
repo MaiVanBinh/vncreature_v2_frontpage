@@ -1,7 +1,7 @@
 export default {
-  solgan1: "Sinh vật đang biến mất dần",
+  solgan1: "Khám phá Việt Nam",
   home: {
-    solgan1: "Sinh vật đang biến mất dần",
+    solgan1: "Khám phá Việt Nam",
     solgan2: "Hãy bảo vệ chúng",
   },
 };
