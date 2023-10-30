@@ -22,7 +22,7 @@ export default function Home() {
   const posts = useAppSelector(state => state.postsReducer.data);
   useEffect(() => {
     dispatch(getCreaturesRedbook({}));
-    dispatch(getPosts({}));
+    // dispatch(getPosts({}));
   }, [])
 
   return (
@@ -31,9 +31,9 @@ export default function Home() {
       <HomeBanner />
       <HomePageContainer>
         <HomePageServices />
-        {redbookData.animals && <RedBookList redbookData={redbookData.animals?.data} />}
-        {redbookData.plants && <RedBookList redbookData={redbookData.plants?.data} />}
-        {redbookData.insect && <RedBookList redbookData={redbookData.insect?.data} />}
+        {redbookData.animals && <RedBookList redbookData={redbookData.animals} />}
+        {redbookData.plants && <RedBookList redbookData={redbookData.plants} />}
+        {redbookData.insect && <RedBookList redbookData={redbookData.insect} />}
         <Articles posts={posts} />
       </HomePageContainer>
       <Footer />

@@ -45,12 +45,12 @@ export default async function request({ url, options, lang }: any) {
   let urlPath = url;
 
   let accessToken;
-  if (!isServer) {
-    accessToken = await getAccessTokenFromCookie();
-  } else {
-    accessToken = await getAccessTokenFromSessionStorage();
-  }
-  headers = { Authorization: `bearer ${accessToken}`, ...headers };
+  // if (!isServer) {
+  //   accessToken = await getAccessTokenFromCookie();
+  // } else {
+  //   accessToken = await getAccessTokenFromSessionStorage();
+  // }
+  // headers = { Authorization: `bearer ${accessToken}`, ...headers };
 
   urlPath += !isEmpty(params) ? `?${qs.stringify(params)}` : '';
   let optionsFinal = {
@@ -58,7 +58,7 @@ export default async function request({ url, options, lang }: any) {
     method,
     headers: {
       'Content-Type': 'application/json',
-      ...headers,
+      // ...headers,
     },
     data: {}
   };
