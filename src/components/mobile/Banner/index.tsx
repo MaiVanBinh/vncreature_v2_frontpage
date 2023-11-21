@@ -34,7 +34,7 @@ const HomeBanner = () => {
           volume={0.5}
           width={'100%'}
           height={'auto'}
-          // muted={true}
+          muted={true}
         />
 
         {/* <Image
@@ -52,7 +52,7 @@ const HomeBanner = () => {
         }}
       >
         <Title1>
-          {t.solgan1}
+          {t.homepage.title}
         </Title1>
       </Box>
     </HomeBannerContainer>

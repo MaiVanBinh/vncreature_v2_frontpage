@@ -1,6 +1,7 @@
 import KeyboardArrowRightSharpIcon from "@mui/icons-material/KeyboardArrowRightSharp";
 import { BodyText1, Title2 } from "@/components/base/baseComponent";
 import styled from "styled-components";
+import useTrans from "@/hooks/useTrans";
 
 const Container = styled('div')`
   display: flex;
@@ -30,11 +31,12 @@ const BodyText1Custom = styled(BodyText1)`
 `
 
 const TitleList = ({ title }: { title: string }) => {
+  const { t } = useTrans();
   return (
       <Container>
         <Title2>{title}</Title2>
         <SeeAll>
-          <BodyText1Custom>Tat ca</BodyText1Custom>
+          <BodyText1Custom>{t.homepage.all}</BodyText1Custom>
           <KeyboardArrowRightSharpIcon />
         </SeeAll>
       </Container>

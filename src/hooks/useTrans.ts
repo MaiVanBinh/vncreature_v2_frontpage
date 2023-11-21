@@ -13,8 +13,7 @@ const useTrans = () => {
     const [locale, setLocale] = useState(LOCALE_ENUM.VN)
 
     const t = locale === LOCALE_ENUM?.VN ? vi : en
-    console.log('locale', t)
-
+    console.log('locale', locale)
     return { t, locale, setLocale }
 }
 

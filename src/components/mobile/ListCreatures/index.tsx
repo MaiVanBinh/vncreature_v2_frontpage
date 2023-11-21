@@ -9,7 +9,7 @@ import CreatureSkeleton from "../CreatureSkeleton";
 const ListContainer = styled(ContainerBase)<{isDetailPage?: boolean}>`
   width: 100%;
   
-  ${(props) => props.isDetailPage ? 'padding: 0px !important;' : 'margin-top: 10px;padding: 10px 20px;'}
+  ${(props) => props.isDetailPage ? 'padding: 0px !important;' : 'margin-top: 10px;padding: 10px 0px;'}
   background: ${(props) => props.theme?.colors?.white};
   border-radius: 10px;
 `;
@@ -20,7 +20,7 @@ const ListCreatures = ({
   isDetailPage,
 }: {
   creatures: TCreature[];
-  loading: boolean;
+  loading?: boolean;
   isDetailPage?: boolean;
 }) => {
   return (

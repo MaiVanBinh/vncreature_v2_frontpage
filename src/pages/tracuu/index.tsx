@@ -10,6 +10,7 @@ import { useDispatch } from 'react-redux';
 import { getCreaturesRedbook } from '@/container/creatures/actions';
 import { useAppSelector } from '@/container/store';
 import { getPosts } from '@/container/posts/actions';
+import useTrans from "@/hooks/useTrans";
 
 const HomePageContainer = styled('div')`
   padding: 1em 4vw;
@@ -17,6 +18,7 @@ const HomePageContainer = styled('div')`
 `
 
 export default function Home() {
+  const { t } = useTrans();
   const dispatch = useDispatch();
   const redbookData = useAppSelector(state => state.creaturesReducer.redbookData);
   const posts = useAppSelector(state => state.postsReducer.data);
@@ -31,9 +33,9 @@ export default function Home() {
       <HomeBanner />
       <HomePageContainer>
         <HomePageServices />
-        {redbookData.animals && <RedBookList redbookData={redbookData.animals} />}
-        {redbookData.plants && <RedBookList redbookData={redbookData.plants} />}
-        {redbookData.insect && <RedBookList redbookData={redbookData.insect} />}
+        {redbookData.animals && <RedBookList redbookData={redbookData.animals} title={t.homepage.animals} />}
+        {redbookData.plants && <RedBookList redbookData={redbookData.plants} title={t.homepage.plants} />}
+        {redbookData.insect && <RedBookList redbookData={redbookData.insect} title={t.homepage.insects}/>}
         <Articles posts={posts} />
       </HomePageContainer>
       <Footer />

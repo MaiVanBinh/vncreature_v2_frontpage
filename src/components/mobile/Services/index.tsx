@@ -7,6 +7,7 @@ import MultipleStopIcon from '@mui/icons-material/MultipleStop';
 import ParkIcon from '@mui/icons-material/Park';
 import CycloneIcon from '@mui/icons-material/Cyclone';
 import { useRouter } from "next/router";
+import useTrans from "@/hooks/useTrans";
 
 const ServicesContainer = styled("div")`
   display: flex;
@@ -78,6 +79,7 @@ const ServiceItem = (props: Props) => (
 
 const HomePageServices = () => {
   const router = useRouter()
+  const { t } = useTrans();
 
   return (
     <ServicesContainer>
@@ -90,7 +92,7 @@ const HomePageServices = () => {
             justifyContent: "center",
           }}
         >
-          <ServiceItem title="Sinh vat" click={() => router.push('/kqtracuu')}>
+          <ServiceItem title={t.homepage.creature} click={() => router.push('/kqtracuu')}>
             <PetsIcon />
           </ServiceItem>
         </Grid>
@@ -103,7 +105,7 @@ const HomePageServices = () => {
             justifyContent: "center",
           }}
         >
-          <ServiceItem title="Bai viet" click={() => router.push('/bai-viet')}>
+          <ServiceItem title={t.homepage.news} click={() => router.push('/bai-viet')}>
             <ArticleSharpIcon />
           </ServiceItem>
         </Grid>
@@ -116,7 +118,7 @@ const HomePageServices = () => {
             justifyContent: "center",
           }}
         >
-          <ServiceItem title="Tu Dien">
+          <ServiceItem title={t.homepage.dictionary}>
             <MultipleStopIcon />
           </ServiceItem>
         </Grid>
@@ -130,7 +132,7 @@ const HomePageServices = () => {
             justifyContent: "center",
           }}
         >
-          <ServiceItem title="Mau Go">
+          <ServiceItem title={t.homepage.woodForm}>
             <CycloneIcon />
           </ServiceItem>
         </Grid>
@@ -142,7 +144,7 @@ const HomePageServices = () => {
             justifyContent: "center",
           }}
         >
-          <ServiceItem title="Vuon quoc gia">
+          <ServiceItem title={t.homepage.nationalPark}>
             <ParkIcon />
           </ServiceItem>
         </Grid>
